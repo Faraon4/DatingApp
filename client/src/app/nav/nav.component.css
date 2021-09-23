@@ -1,0 +1,6 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+.dropdown-divider {
+    margin: 0 0;
+}
