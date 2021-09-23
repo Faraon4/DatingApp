@@ -12,7 +12,8 @@ import { User } from '../_models/user';
 })
 export class AccountService {
 baseUrl = 'http://localhost:5000/api/'; // store value in here, and when user subscribe then it emits the last value or any value that we want
-private currentUserSource = new ReplaySubject<User>(1);
+private currentUserSource = new ReplaySubject<User>(1); // The reason why this and next variables are observables is because this way that can be observe
+                                                        // by other classes , and our auth.guard will need to for allowing to go to specific links
 currentUser$ = this.currentUserSource.asObservable(); // Observable objects , by convention at the end of name should have $ sign
 
 // In constructor we inject http client in this service
