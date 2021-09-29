@@ -38,17 +38,11 @@ namespace API.Controllers
         [HttpGet("server-error")]
         public ActionResult<string> GetServerError()
         {
-            try
-            {
-   var thing = _context.Users.Find(-1);
+           var thing = _context.Users.Find(-1);
            var thingToReturn = thing.ToString(); // null reference exeption
 
            return thingToReturn;
-            }
-            catch(Exception ex)
-            {
-               return StatusCode(500, "Computer Says NOOO!!");
-            }
+          
         }
 
         
