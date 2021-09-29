@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { HomeComponent } from './home/home.component';
 import { ListsComponent } from './lists/lists.component';
@@ -23,7 +25,9 @@ const routes: Routes = [
   },
   // Route for the errors
   {path: 'errors', component: TestErrorsComponent},
-  {path: '**', component: HomeComponent, pathMatch: 'full'}, // we write this if the user is entering something that not exits, this is also called wild route
+  {path: 'not-found', component:NotFoundComponent},
+  {path: 'server-error', component: ServerErrorComponent},
+  {path: '**', component: NotFoundComponent, pathMatch: 'full'}, // we write this if the user is entering something that not exits, this is also called wild route
                                                              // pathMatch: 'full', the URL should be all correct, not only a part of it 
 ];
 
