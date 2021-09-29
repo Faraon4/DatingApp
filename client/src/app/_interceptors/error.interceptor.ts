@@ -22,7 +22,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if( error){
           switch (error.status) {
             case 400:
-                if(error.error.erros) {
+                if(error.error.errors) {
                   const modalStateErrors = [];
                   for(const key in error.error.errors) {
                     if (error.error.errors[key]) {
@@ -30,7 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     }
                   }
 
-                  throw modalStateErrors;
+                  throw modalStateErrors.flat();
                 }
                 else {
                   this.toastr.error(error.statusText, error.status);
@@ -44,7 +44,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
 
             case 500:
-              const navigationExtras: NavigationExtras = {state: {error: error.error}}
+              const navigationExtras: NavigationExtras = {state: {error: error.error}};
               this.router.navigateByUrl('/server-error', navigationExtras);
               break;
 
