@@ -1,14 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Data.Migrations
 {
-    public partial class ExtendedUserEntityUPDATED : Migration
+    public partial class PhotoNewExtensionMethod : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-           
-
             migrationBuilder.CreateTable(
                 name: "Photos",
                 columns: table => new
@@ -41,9 +38,6 @@ namespace API.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Photos");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }
