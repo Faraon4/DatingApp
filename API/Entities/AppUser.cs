@@ -22,6 +22,10 @@ namespace API.Entities
      public string Interests {get;set;}
      public string City { get; set; }
      public string Country {get;set;}
+     // This type of relation is called one to many 
+     // So one user can have multiple photos
+     // For this we need to announce the photos class as well about this
+     // Look at the Photo class and new add AppUser property
      public ICollection<Photo> Photos {get;set;}
 
 
