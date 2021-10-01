@@ -25,6 +25,7 @@ namespace API.Entities
 
         public ICollection<Photo> Photos { get; set; }
 
+        // We comment this , but we did change in automapperprofile
         //  public int GetAge()
         //  {
         //      return DateOfBirth.CalculateAge();
