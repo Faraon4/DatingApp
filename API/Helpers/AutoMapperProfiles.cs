@@ -10,6 +10,7 @@ namespace API.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
+        // Here we map what we want with something :D
         public AutoMapperProfiles()
         {
             CreateMap<AppUser, MemberDto>();
