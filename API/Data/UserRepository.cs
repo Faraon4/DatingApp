@@ -23,6 +23,9 @@ namespace API.Data
 
         public async Task<MemberDto> GetMemberAsync(string username)
         {
+              // we are not using the EagerLoading 
+            // So we are not using .Include();
+            // So it is much better
             return await _context.Users
                     .Where(x => x.UserName == username)
                     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
@@ -32,6 +35,9 @@ namespace API.Data
 
         public async Task<IEnumerable<MemberDto>> GetMembersAsynnc()
         {
+            // we are not using the EagerLoading 
+            // So we are not using .Include();
+            // So it is much better
             return await _context.Users
                    .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                    .ToListAsync();
