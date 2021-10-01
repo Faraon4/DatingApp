@@ -18,6 +18,7 @@ namespace API.Extensions
             // Second added scoped -> most of all we will use this and it works with http requests
             //Third add transiend -> service is create when it is called and is destroied after it finish its work
                  services.AddScoped<ITokenService, TokenService>();
+                 services.AddScoped<IUserRepository, UserRepository>();
 
 
 
