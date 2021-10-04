@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { User } from '../_models/user';
+import { environment } from 'src/environments/environment';
 
 
 // This service will be used to make requests to out api
@@ -11,7 +12,7 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class AccountService {
-baseUrl = 'http://localhost:5000/api/'; // store value in here, and when user subscribe then it emits the last value or any value that we want
+baseUrl = environment.apiUrl;
 private currentUserSource = new ReplaySubject<User>(1); // The reason why this and next variables are observables is because this way that can be observe
                                                         // by other classes , and our auth.guard will need to for allowing to go to specific links
 currentUser$ = this.currentUserSource.asObservable(); // Observable objects , by convention at the end of name should have $ sign
