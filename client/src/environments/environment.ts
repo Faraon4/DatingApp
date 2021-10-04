@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://localhost:5000/api/' // we use this in all project , instead of hardcoding
+                                      // next messaege I used when I hardcoded it in account service and use the baseUrl
+                                      //store value in here, and when user subscribe then it emits the last value or any value that we want
 };
 
 /*
