@@ -44,6 +44,10 @@
             <tab heading='About {{member.knownAs}}'>
                 <form>
                     <h4>Description</h4>
+                    <!--[(ngModel)] => use both brakets because it is two way binding
+                    This means that it gives components in app a way to share data
+                To listen to events and update values between parent and child
+                    -->
                 <textarea class="form-control" [(ngModel)]="member.introduction" name="introduction" rows="6"></textarea>
                 <h4 class="mt-2">Looking for</h4>
                 <textarea class="form-control" [(ngModel)]="member.lookingFor" name="lookingFor" rows="6"></textarea>
