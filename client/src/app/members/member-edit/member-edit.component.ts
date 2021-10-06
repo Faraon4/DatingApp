@@ -41,9 +41,10 @@ loadMember() {
 }
 
 updateMember(){
-  console.log(this.member);
-  this.toasts.success("Profile Updated Succefuly");
+  this.memberService.updateMember(this.member).subscribe(() => {
+    this.toasts.success("Profile Updated Succefuly");
   this.editForm.reset(this.member); // this is the updated user after we submit our form
+  })
 }
 }
 
