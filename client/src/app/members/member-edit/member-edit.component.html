@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="card-footer">
-                    <button form="editForm" class="btn btn-success btn-block">Save Changes</button>
+                    <button [disabled]="!editForm.dirty" form="editForm" class="btn btn-success btn-block">Save Changes</button>
             </div>
         </div>
     </div>
