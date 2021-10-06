@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/member';
 import { User } from 'src/app/_models/user';
@@ -14,7 +15,7 @@ export class MemberEditComponent implements OnInit {
   member!: Member;
   user!: User;
 
-  constructor(private accountService : AccountService, private memberService: MembersService) { 
+  constructor(private accountService : AccountService, private memberService: MembersService, private toasts: ToastrService) { 
     // User (from service) is an observable, and we cannot really work with observables in compoenent
     // FOr this we need to take it off from the observables and populate our user that we declare upper
 
@@ -32,6 +33,10 @@ loadMember() {
   });
 }
 
+updateMember(){
+  console.log(this.member);
+  this.toasts.success("Profile Updated Succefuly");
+}
 }
 
 // Write the correct code to get the member
