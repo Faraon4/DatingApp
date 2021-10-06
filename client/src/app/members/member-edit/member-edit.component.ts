@@ -33,3 +33,8 @@ loadMember() {
 }
 
 }
+
+// Write the correct code to get the member
+// First of all we need to display the user, if it is a member
+// and for this we are takeing out of observables the user that we get 
+// and then we do wha we do in this file
