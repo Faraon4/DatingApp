@@ -104,5 +104,26 @@ namespace API.Controllers
 
             return BadRequest("Problem adding photo");
         }
+
+
+        [HttpPut("set-main-photo/{photoId}")] //When we want to update something in app, we are using the HttpPut
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
+
+            if(photo.IsMain) return BadRequest("This is already main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
+            if (currentMain != null) currentMain.IsMain = false;
+            photo.IsMain = true;
+
+
+            if (await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to set main photo");
+        }
+
     }
 }
