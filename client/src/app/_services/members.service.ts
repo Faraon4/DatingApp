@@ -43,5 +43,10 @@ updateMember(member: Member){
     })
   )
 }
+
+
+setMainPhoto(photoId: number) {
+  return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {}); // {what we are sending}
+}
 }
 
