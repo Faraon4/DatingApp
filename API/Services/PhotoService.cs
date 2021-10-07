@@ -25,9 +25,22 @@ namespace API.Services
             _cloudinary = new Cloudinary(acc);
         }
 
-        public Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
+        public async Task<ImageUploadResult> AddPhotoAsync(IFormFile file)
         {
-            throw new NotImplementedException();
+            var uploadResult = new ImageUploadResult();
+            if(file.Length > 0) 
+            {
+                // Logic to upload the file
+                using var stream = file.OpenReadStream();
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream),
+                    Transformation = new Transformation().Height(500).Width(500).Crop("fill").Gravity("face")
+                };
+                // part where we upload the file to the cloudinary
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+            return uploadResult;
         }
 
         public Task<DeletionResult> DeletePhotoAsync(string publicId)
