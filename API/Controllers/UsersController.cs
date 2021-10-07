@@ -42,7 +42,7 @@ namespace API.Controllers
 
         // End point to get specific user from out database
         // api/users/id
-        [HttpGet("{username}")]
+        [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             // Using Getmembers instead of getUsers
@@ -98,7 +98,9 @@ namespace API.Controllers
             user.Photos.Add(photo);
 
             if( await _userRepository.SaveAllAsync())
-            return _mapper.Map<PhotoDto>(photo);
+            {
+               return CreatedAtRoute("GetUser",new {username = user.UserName}, _mapper.Map<PhotoDto>(photo));
+            }
 
             return BadRequest("Problem adding photo");
         }
