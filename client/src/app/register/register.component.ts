@@ -23,13 +23,15 @@ export class RegisterComponent implements OnInit {
     this.registerForm = new FormGroup({
       username: new FormControl('Hello', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]),
-      confirmPassword: new FormControl('', Validators.required)
+      confirmPassword: new FormControl('', [Validators.required, this.matchValues('password')])
     })
+    
   }
 
   matchValues(matchTo: string): ValidatorFn {
     return (control: AbstractControl) => {
       if (control.parent && control.parent.controls) {
+        // If it is true, and the passwords matches each other, than we return null, but if they don't we return that they are not matching
         return control?.value === (control?.parent?.controls as { [key: string]: AbstractControl })[matchTo].value ? null : {isMatching: true}
       }
       return null;
