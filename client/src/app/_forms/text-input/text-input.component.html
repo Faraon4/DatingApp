@@ -1,1 +1,10 @@
-<p>text-input works!</p>
+<div>
+    <input 
+                [class.is-invalid]="ngControl.touched && ngControl.invalid" >
+                type="password" 
+                class="form-control mb-2" 
+                formControlName='confirmPassword' 
+                placeholder="Confirm Password">
+                <div *ngIf="registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a confirm password</div>
+                <div *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback mb-3">Confirm password must match password</div>
+</div>
