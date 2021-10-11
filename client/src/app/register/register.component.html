@@ -1,33 +1,10 @@
 <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
     <h2 class="text-center text-primary"> Sign Up</h2>
     <hr>
-    <div class="form-group">
-        <input 
-            [class.is-invalid]='registerForm.get("username")?.errors && registerForm.get("username")?.touched'
-            type="text" 
-            class="form-control mb-2" 
-            formControlName='username' 
-            placeholder="Username">
-            <div class="invalid-feedback mb-3">Please Enter a username</div>
-        <input 
-        [class.is-invalid]='registerForm.get("password")?.errors && registerForm.get("password")?.touched'
-            type="password" 
-            class="form-control mb-2" 
-            formControlName='password' 
-            placeholder="Password">
-            <div *ngIf="registerForm.get('password')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a password</div>
-            <div *ngIf="registerForm.get('password')?.hasError('minlength')" class="invalid-feedback mb-3">Password must be at least 4 characters</div>
-            <div *ngIf="registerForm.get('password')?.hasError('maxlength')" class="invalid-feedback mb-3">Password must ne at most 8 characters</div>
-        <input 
-            [class.is-invalid]='registerForm.get("confirmPassword")?.errors && registerForm.get("confirmPassword")?.touched'
-            type="password" 
-            class="form-control mb-2" 
-            formControlName='confirmPassword' 
-            placeholder="Confirm Password">
-            <div *ngIf="registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a confirm password</div>
-            <div *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback mb-3">Confirm password must match password</div>
-    </div>
-
+   
+    <app-text-input [formControl]?='registerForm.controls["username"]' [label]?='"Username"'></app-text-input>
+    <app-text-input [formControl]?='registerForm.controls["password"]' [label]?='"Password"' [type]='"password"'></app-text-input>
+    <app-text-input [formControl]?='registerForm.controls["confirmPassword"]' [label]!="Confirm Password" [type]='"password"'></app-text-input>
     <div class="form-group text-center">
         <button class="btn btn-success mr-2" type="submit">Register</button>
         <button class="btn btn-light mr-2" type="button" (click)="cancel()">Cancel</button>
