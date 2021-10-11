@@ -2,9 +2,24 @@
     <h2 class="text-center text-primary"> Sign Up</h2>
     <hr>
     <div class="form-group">
-        <input type="text" class="form-control mb-2" formControlName='username' placeholder="Username">
-        <input type="password" class="form-control mb-2" formControlName='password' placeholder="Password">
-        <input type="password" class="form-control mb-2" formControlName='confirmPassword' placeholder="Confirm Password">
+        <input 
+            [class.is-invalid]='registerForm.get("username")?.errors && registerForm.get("username")?.touched'
+            type="text" 
+            class="form-control mb-2" 
+            formControlName='username' 
+            placeholder="Username">
+            <div class="invalid-feedback mb-3">Please Enter a username</div>
+        <input 
+        [class.is-invalid]='registerForm.get("password")?.errors && registerForm.get("password")?.touched'
+            type="password" 
+            class="form-control mb-2" 
+            formControlName='password' 
+            placeholder="Password">
+        <input 
+            type="password" 
+            class="form-control mb-2" 
+            formControlName='confirmPassword' 
+            placeholder="Confirm Password">
     </div>
 
     <div class="form-group text-center">
