@@ -1,10 +1,15 @@
 <div>
     <input 
-                [class.is-invalid]="ngControl.touched && ngControl.invalid" >
-                type="password" 
+                [class.is-invalid]="ngControl.touched && ngControl.invalid" 
+                type="{{type}}" 
                 class="form-control mb-2" 
-                formControlName='confirmPassword' 
-                placeholder="Confirm Password">
-                <div *ngIf="registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a confirm password</div>
-                <div *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback mb-3">Confirm password must match password</div>
+                [formControlName]!="ngControl.control" 
+                placeholder="{{label}}">
+
+                <div *ngIf="ngControl.control?.errors?.required" class="invalid-feedback mb-3">Please Enter a {{label}}</div>
+                <div *ngIf="ngControl.control?.errors?.minlength" class="invalid-feedback mb-3"></div>
+                <div *ngIf="ngControl.control?.errors?.maxlength" class="invalid-feedback mb-3">Please Enter a {{label}}</div>
+                <div *ngIf="ngControl.control?.errors?.required" class="invalid-feedback mb-3">Please Enter a {{label}}</div>
+                <div *ngIf="ngControl.control?.errors?.required" class="invalid-feedback mb-3">Please Enter a {{label}}</div>
+                
 </div>
