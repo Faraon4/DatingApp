@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestInputComponent implements OnInit {
 
+  // We want to implement a control value accessor
   constructor() { }
 
   ngOnInit(): void {
