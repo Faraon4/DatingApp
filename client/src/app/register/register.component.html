@@ -15,6 +15,9 @@
             class="form-control mb-2" 
             formControlName='password' 
             placeholder="Password">
+            <div *ngIf="registerForm.get('password')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a password</div>
+            <div *ngIf="registerForm.get('password')?.hasError('minlength')" class="invalid-feedback mb-3">Password must be at least 4 characters</div>
+            <div *ngIf="registerForm.get('password')?.hasError('maxlength')" class="invalid-feedback mb-3">Password must ne at most 8 characters</div>
         <input 
             type="password" 
             class="form-control mb-2" 
