@@ -19,10 +19,13 @@
             <div *ngIf="registerForm.get('password')?.hasError('minlength')" class="invalid-feedback mb-3">Password must be at least 4 characters</div>
             <div *ngIf="registerForm.get('password')?.hasError('maxlength')" class="invalid-feedback mb-3">Password must ne at most 8 characters</div>
         <input 
+            [class.is-invalid]='registerForm.get("confirmPassword")?.errors && registerForm.get("confirmPassword")?.touched'
             type="password" 
             class="form-control mb-2" 
             formControlName='confirmPassword' 
             placeholder="Confirm Password">
+            <div *ngIf="registerForm.get('confirmPassword')?.hasError('required')" class="invalid-feedback mb-3">Please Enter a confirm password</div>
+            <div *ngIf="registerForm.get('confirmPassword')?.hasError('isMatching')" class="invalid-feedback mb-3">Confirm password must match password</div>
     </div>
 
     <div class="form-group text-center">
