@@ -3,7 +3,7 @@
                 [class.is-invalid]="ngControl.touched && ngControl.invalid" 
                 type="{{type}}" 
                 class="form-control mb-2" 
-                [formControlName]!="ngControl.control" 
+                [formControl]?="ngControl.control" 
                 placeholder="{{label}}">
 
                 <div *ngIf="ngControl.control?.errors?.required" class="invalid-feedback mb-3">Please Enter a {{label}}</div>
