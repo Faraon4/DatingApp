@@ -14,8 +14,13 @@ namespace API.Extensions
         {
             var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalItems, totalPages);
 
+           var options = new JsonSerializerOptions
+           {
+               PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+           };
+
             // Add pagination to our response header
-            response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader));
+            response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader, options));
             // Make the custom header available
             response.Headers.Add("Access-Control-Expose-Headers", "Pagination"); //Spelling must be the same
         }
