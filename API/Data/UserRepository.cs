@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -37,14 +38,17 @@ namespace API.Data
 
         }
 
-        public async Task<IEnumerable<MemberDto>> GetMembersAsynnc()
+        public async Task<PagedList<MemberDto>> GetMembersAsynnc(UserParams userParams)
         {
             // we are not using the EagerLoading 
             // So we are not using .Include();
             // So it is much better
-            return await _context.Users
+            var query = _context.Users
                    .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                   .ToListAsync();
+                   .AsNoTracking(); // We only want to read the entitites, we do not want to track them
+
+                   return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize); // this is what we want to return  , and we need to add this info to the page header as well
+                   
         }
 
         public async Task<AppUser> GetUserByIdAsync(int id)
