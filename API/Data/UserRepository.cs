@@ -29,6 +29,8 @@ namespace API.Data
 
             // This is what we want to paginate in our project that's why we use the Take and other methods that help for pagination
             return await _context.Users
+                    .Take(5)
+                    .Skip(5)
                     .Where(x => x.UserName == username)
                     .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                     .SingleOrDefaultAsync();
