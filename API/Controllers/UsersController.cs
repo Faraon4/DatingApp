@@ -6,6 +6,7 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -31,10 +32,13 @@ namespace API.Controllers
 
         // End point to get all users from out database
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
             // Using Getmembers instead of getUsers
-            var users = await _userRepository.GetMembersAsynnc();
+            var users = await _userRepository.GetMembersAsynnc(userParams); // this is type of pagedList , and this means that we get the pagination information here as well
+
+            Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
+
             return Ok(users);
 
 
