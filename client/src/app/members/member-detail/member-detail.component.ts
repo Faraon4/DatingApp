@@ -33,7 +33,7 @@ export class MemberDetailComponent implements OnInit {
  //  this.galleryImages = this.getImages(); // initialize our galery
   }
 
-  // method to get the photoes outside the members
+  // method to get the photos outside the members
   getImages(): NgxGalleryImage[]{
     const imageUrls = [];
     for(const photo of this.member.photos){
@@ -54,7 +54,7 @@ export class MemberDetailComponent implements OnInit {
       // because if we put this line in ngOnInit
       // we will get an error in the console, because nothing is waiting for nothing
       // but in this way we ensure the app that aeverything is ok
-      
+
       this.galleryImages = this.getImages(); // initialize our galery 
     })
   }
