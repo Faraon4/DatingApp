@@ -8,6 +8,6 @@ export interface Pagination {
 
 
 export class PaginatedResult<T> {
-    result: T | undefined; // For initial example , T is an array of members
+    result!: T; // For initial example , T is an array of members
     pagination!: Pagination;
 }
