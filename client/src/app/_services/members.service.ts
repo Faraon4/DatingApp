@@ -47,7 +47,6 @@ paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
   }
 
   getMember(username:string){
-    this.getMembers(1,5);
     const member = this.members.find(x => x.username === username);
     if(member !== undefined) return of(member);
     return this.http.get<Member>(this.baseUrl + 'users' + username);
