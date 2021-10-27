@@ -7,5 +7,6 @@ namespace API.DTOs
         public string Token { get; set; }
         public string PhotoUrl {get;set; } 
         public string KnownAs { get; set; }
+        public string Gender {get;set;} // We need this value to have, instead of creating api call all the time to get the gender of the user
     }
 }
