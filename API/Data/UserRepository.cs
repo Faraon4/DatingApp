@@ -41,11 +41,26 @@ namespace API.Data
             // we are not using the EagerLoading 
             // So we are not using .Include();
             // So it is much better
-            var query = _context.Users
-                   .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                   .AsNoTracking(); // We only want to read the entitites, we do not want to track them
+            var query = _context.Users.AsQueryable();
 
-                   return await PagedList<MemberDto>.CreateAsync(query, userParams.PageNumber, userParams.PageSize); // this is what we want to return  , and we need to add this info to the page header as well
+                // We delete the next 3 lines of code, because in this way we will not be able to targer the user from AppUser, but we will target the MemberDto
+                // So better to add AsQueriable() in the line nr 44;
+            /*
+                   .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+                   .AsNoTracking() // We only want to read the entitites, we do not want to track them
+                   .AsQueryable(); // This give us the possibility to do something with our query, for example to return all users except the login one
+
+            */
+
+            // Now in postman we will see that when we are looged in as lise and get all users , we will get all users exept the lisa
+            // And as well when we get the gender=female part in postman, when we are logged as lisa and get the people , we will get the females , we'll get all females execpt the lisa(loged one)
+                query = query.Where(u => u.UserName != userParams.CurrentUsername);
+                query = query.Where(u => u.Gender == userParams.Gender);
+
+                    // We are still sending our query , but before this we are filtering it , and then send 
+                    // Filter is upper 2 lines of code
+                   return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
+                   userParams.PageNumber, userParams.PageSize); // this is what we want to return  , and we need to add this info to the page header as well
                    
         }
 
