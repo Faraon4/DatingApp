@@ -62,6 +62,12 @@ namespace API.Data
 
                  query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
 
+                 query = userParams.OrderBy switch 
+                 {
+                     "created" => query.OrderByDescending(u => u.Created),
+                     _ => query.OrderByDescending(u => u.LastActive) // _ means the default and we do not need to add breaks
+                 };
+
                     // We are still sending our query , but before this we are filtering it , and then send 
                     // Filter is upper 57 58  lines of code
                    return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
