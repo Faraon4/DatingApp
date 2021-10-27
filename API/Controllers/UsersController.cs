@@ -34,6 +34,11 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            userParams.CurrentUsername = user.UserName;
+            if(string.IsNullOrEmpty(userParams.Gender))
+            userParams.Gender = user.Gender == "male" ? "female" : "male";
+             
             // Using Getmembers instead of getUsers
             var users = await _userRepository.GetMembersAsynnc(userParams); // this is type of pagedList , and this means that we get the pagination information here as well
 
