@@ -26,9 +26,15 @@ export class MemberListComponent implements OnInit {
     this.memberService.getMembers(this.pageNumber, this.pageSize).subscribe(response => {
       this.members = response.result;
       this.pagination = response.pagination;
-      console.log(response.pagination);
     })
   }
+
+  pageChanged(event : any){
+      this.pageNumber = event.page;
+      this.loadMembers();
+  }
+
+  
   //We do not need this more, because we will take it from our service, but in our service we implemenet , that we don't make an API call all the time
   /*
     loadMembers() {
