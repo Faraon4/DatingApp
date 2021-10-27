@@ -57,8 +57,13 @@ namespace API.Data
                 query = query.Where(u => u.UserName != userParams.CurrentUsername);
                 query = query.Where(u => u.Gender == userParams.Gender);
 
+                var minDob = DateTime.Today.AddYears(-userParams.MaxAge-1); // Give the accurate year
+                var maxDob = DateTime.Today.AddYears(-userParams.MinAge); // Max year age
+
+                 query = query.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
+
                     // We are still sending our query , but before this we are filtering it , and then send 
-                    // Filter is upper 2 lines of code
+                    // Filter is upper 57 58  lines of code
                    return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), 
                    userParams.PageNumber, userParams.PageSize); // this is what we want to return  , and we need to add this info to the page header as well
                    
