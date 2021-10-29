@@ -24,6 +24,8 @@ namespace API.Extensions
                  services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
                  services.AddScoped<IPhotoService, PhotoService>();
 
+                 services.AddScoped<LogUserActivity>();
+
 
 
             // Here we add the configuration of the DbContext class
