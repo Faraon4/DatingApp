@@ -15,20 +15,45 @@ import { UserParams } from '../_models/userParams';
 export class MembersService {
 baseUrl = environment.apiUrl;
 members: Member[] = [];
-paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
+memberCache = new Map();
 
   constructor(private http: HttpClient) { }
 
   getMembers(userParams: UserParams){
 
+      // We implement the cache here
+      // and we need now is a bit complicated because we want to remember not just an array of members
+      // but we want to remember the query that the user will ask for
+      // For example if he asked femaled within a specific age range we want to save this query as well
 
-   let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);
-   params = params.append('minAge', userParams.minAge.toString());
-   params = params.append('maxAge', userParams.maxAge.toString());
-   params = params.append('gender', userParams.gender);
-   params = params.append('orderBy', userParams.orderBy);
-   
-   return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params)
+        //For this we need a specific key to remember and to do this, we are using the next command
+  
+       // console.log(Object.values(userParams).join('-'));
+
+    // After we use this command in console we will see specific information 
+    // And this info we would like to store as a key and then use it
+    // And inside the key we will have the response 
+    // And for this we will use a map, which is like a dictionary
+
+    // 1. We need to check if we have a particulary result in our cache
+      var response = this.memberCache.get(Object.values(userParams).join('-'));
+      if(response) {
+        return of(response);
+      }
+      // 2. Now we go to the return from this method (the last one ), and we need to return the result 
+
+                                                                                                  /* | */ 
+   let params = this.getPaginationHeaders(userParams.pageNumber, userParams.pageSize);            /* | */    
+   params = params.append('minAge', userParams.minAge.toString());                                /* | */ 
+   params = params.append('maxAge', userParams.maxAge.toString());                                /* | */ 
+   params = params.append('gender', userParams.gender);                                           /* | */ 
+   params = params.append('orderBy', userParams.orderBy);                                         /* | */ 
+                                                                                                  /* | */ 
+   return this.getPaginatedResult<Member[]>(this.baseUrl + 'users', params)               /*     <----      */  
+      .pipe(map(response => {
+        this.memberCache.set(Object.values(userParams).join('-'), response);
+        return response;
+      }))
   }
 
 
