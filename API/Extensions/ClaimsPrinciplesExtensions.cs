@@ -15,7 +15,7 @@ namespace API.Extensions
 
         public static int GetUserId(this ClaimsPrincipal user)
         {
-            return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value); // this should give the uid from the token
+            return int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value); // this should give the id from the token
         }
     }
 }

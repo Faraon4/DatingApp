@@ -65,7 +65,7 @@ namespace API.Data
                  query = userParams.OrderBy switch 
                  {
                      "created" => query.OrderByDescending(u => u.Created),
-                     _ => query.OrderByDescending(u => u.LastActive) // _ means the default and we do not need to add breaks
+                     _ => query.OrderByDescending(u => u.LastActive) // _ this is default in switch statement
                  };
 
                     // We are still sending our query , but before this we are filtering it , and then send 
