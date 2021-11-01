@@ -26,6 +26,8 @@ namespace API.Extensions
 
                  services.AddScoped<LogUserActivity>();
 
+                 services.AddScoped<ILikesRepository, LikesRepository>();
+
 
 
             // Here we add the configuration of the DbContext class
