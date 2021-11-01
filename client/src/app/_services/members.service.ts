@@ -121,6 +121,17 @@ setMainPhoto(photoId: number) {
 deletePhoto(photoId: number) {
   return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId )
 }
+
+
+addLike(username: string){
+  return this.http.post(this.baseUrl+ 'likes/'+username, {}); //Because it is a post , we need to add {} -> empty body
+}
+
+
+getLikes(predicate: string){
+  return this.http.get(this.baseUrl + 'likes?='+predicate);
+}
+
 private getPaginatedResult<T>(url : string, params : any) {
   const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
    return this.http.get<T>(url, { observe: 'response', params }).pipe(
