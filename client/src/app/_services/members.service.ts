@@ -60,8 +60,21 @@ memberCache = new Map();
 
 
   getMember(username:string){
-    const member = this.members.find(x => x.username === username);
-    if(member !== undefined) return of(member);
+    // First of all we check if this member is in our member cache
+   // console.log(this.memberCache);
+    // wE DO NOT need the keys we need the value
+
+    const member = [...this.memberCache.values()]
+     // console.log(member); // Using this we see, that all the time we add a new array to the existed array of our members
+    // and for doing what we need to do , we will use the reduce method for out array
+     .reduce((arr, elem) => arr.concat(elem.result), [])
+     .find((member: Member) => member.username === username);
+
+     if(member) {
+       return of(member);
+     }
+
+
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 updateMember(member: Member){
