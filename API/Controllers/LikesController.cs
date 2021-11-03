@@ -45,7 +45,7 @@ namespace API.Controllers
 
             if(userLike != null)
             {
-                return BadRequest("You laready like this user");
+                return BadRequest("You already like this user");
             }
 
             userLike = new UserLike
