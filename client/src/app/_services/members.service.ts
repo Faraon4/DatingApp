@@ -128,8 +128,10 @@ addLike(username: string){
 }
 
 
-getLikes(predicate: string){
-  return this.http.get<Partial<Member[]>>(this.baseUrl + 'likes?predicate='+predicate);
+getLikes(predicate: string, pageNumber : number, pageSize: number){
+  let params = this.getPaginationHeaders(pageNumber, pageSize);
+  params = params.append('predicate',predicate);
+  return this.getPaginatedResult<Partial<Member[]>>(this.baseUrl + 'likes',params); // Partial<Member[]> we add for not having errors in the lists component ts
 }
 
 private getPaginatedResult<T>(url : string, params : any) {
