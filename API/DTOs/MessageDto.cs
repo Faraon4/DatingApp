@@ -22,7 +22,7 @@ namespace API.DTOs
      public int RecipientId { get; set; }
      public string RecipientUsername { get; set; }
 
-     public string RecipientUrl { get; set; }
+     public string RecipientPhotoUrl { get; set; }
 
      // Some specific properties for the message
 
