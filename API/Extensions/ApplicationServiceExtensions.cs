@@ -28,6 +28,8 @@ namespace API.Extensions
 
                  services.AddScoped<ILikesRepository, LikesRepository>();
 
+                 services.AddScoped<IMessageRepository, MessageRepository>();
+
 
 
             // Here we add the configuration of the DbContext class
