@@ -8,6 +8,7 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
 {
@@ -57,9 +58,49 @@ namespace API.Data
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
-        public Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId)
+        // In this method we plan to get the conversasion between the 2 users
+        // and as well to mark unread messages to read  messages
+
+        // We need to take the messages in the memory
+        // than do something with them
+        // and then to map them to a dto
+
+
+        // We need to do:
+        // 1. Execute the request and get them out to a list
+        // 2. Work with the messages inside the memory here
+
+        public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
-            throw new NotImplementedException();
+            // This is the first part, we get the conversation between 2 users
+            var messages = await _context.Messages
+                                  .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                                  .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+                                  .Where(m => m.Recipient.UserName == currentUsername 
+                                  && m.Sender.UserName == recipientUsername
+                                  || m.Recipient.UserName == recipientUsername
+                                  && m.Sender.UserName == currentUsername)
+                                  .OrderBy(m => m.MessageSend)
+                                  .ToListAsync();
+
+            // Check if there are unread messaged
+          var unreadMessages = messages.Where(m => m.DateRead == null && m.Recipient.UserName == currentUsername)
+                                       .ToList();
+
+
+            // Then we mark them as read
+         if(unreadMessages.Any())
+         {
+             foreach(var message in unreadMessages)
+             {
+                 message.DateRead = DateTime.Now;
+             }
+
+             await _context.SaveChangesAsync();
+         }
+
+          // return the message DTOs
+         return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
         public async Task<bool> SaveAllAsync()
