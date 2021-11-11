@@ -6,14 +6,18 @@ using API.DTOs;
 using API.Entities;
 using API.Helpers;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 
 namespace API.Data
 {
     public class MessageRepository : IMessageRepository
     {
         private readonly DataContext _context;
-        public MessageRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public MessageRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
             
         }
@@ -32,9 +36,25 @@ namespace API.Data
             return await _context.Messages.FindAsync(id);
         }
 
-        public Task<PagedList<MessageDto>> GetMessagesForUser()
+        public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
         {
-            throw new NotImplementedException();
+            //We want to create an queriable
+            var query = _context.Messages
+                        .OrderByDescending(m => m.MessageSend) // by recent message
+                        .AsQueryable();
+            //Check the container
+            query = messageParams.Container switch 
+                    {
+                        "Inbox" => query.Where(u => u.Recipient.UserName== messageParams.Username),
+                        "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username),
+                         _ => query.Where(u => u.Recipient.UserName== messageParams.Username && u.DateRead ==null)
+                    };
+
+            //Return Dto from this, that's why we need to return the automapper
+      
+            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+
+            return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public Task<IEnumerable<MessageDto>> GetMessageThread(int currentUserId, int recipientId)
