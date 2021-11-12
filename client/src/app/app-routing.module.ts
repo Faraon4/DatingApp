@@ -11,6 +11,7 @@ import { MemberListComponent } from './members/member-list/member-list.component
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
+import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 
 const routes: Routes = [
   {path: '', component: HomeComponent}, // Here the path is emprty because we want to show the HomeComponent
@@ -20,7 +21,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {path: 'members', component: MemberListComponent, canActivate: [AuthGuard]}, // We add a route for our members
-  {path: 'members/:username', component: MemberDetailComponent}, // we add route for the details of the our members , and for going to details page we will write the id of person
+      {path: 'members/:username', component: MemberDetailComponent, resolve: {member: MemberDetailedResolver}}, // we add route for the details of the our members , and for going to details page we will write the id of person
   {path: 'member/edit', component:MemberEditComponent, canDeactivate: [PreventUnsavedChangesGuard]},
   {path: 'lists', component: ListsComponent},
   {path: 'messages', component: MessagesComponent}

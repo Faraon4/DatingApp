@@ -12,7 +12,7 @@ import { MessageService } from 'src/app/_services/message.service';
   styleUrls: ['./member-detail.component.css']
 })
 export class MemberDetailComponent implements OnInit {
-  @ViewChild('memberTabs') memberTabs!: TabsetComponent;
+  @ViewChild('memberTabs', {static: true}) memberTabs!: TabsetComponent;
   member!: Member;
   galleryOptions!: NgxGalleryOptions[];
   galleryImages!: NgxGalleryImage[];
@@ -22,7 +22,16 @@ export class MemberDetailComponent implements OnInit {
   
   constructor(private memberService: MembersService, private route: ActivatedRoute, private messageService: MessageService) { }
   ngOnInit(): void {
-    this.loadMember();
+
+    // we ensure that router do it automatically
+    this.route.data.subscribe(data => {
+      this.member = data.member;
+    })
+
+    this.route.queryParams.subscribe(params => {
+      params.tab ? this.selectTab(params.tab) : this.selectTab(0);
+    })
+
     this.galleryOptions = [
       {
         width: '500px',
@@ -33,7 +42,9 @@ export class MemberDetailComponent implements OnInit {
         preview: false // we cannot click on the image
       }
     ]
- //  this.galleryImages = this.getImages(); // initialize our galery
+
+    
+    this.galleryImages = this.getImages(); // initialize our galery 
   }
 
   // method to get the photoes outside the members
@@ -48,6 +59,14 @@ export class MemberDetailComponent implements OnInit {
     }
     return imageUrls;
   }
+
+
+
+
+  // We do not need this method anymore because we create the resolver
+  // and we as well subscribe in the ngOnInit() method
+  // AAAAAAnn the initialization of the galary we add as well in the Oninit
+  /*
   loadMember(){
     this.memberService.getMember(this.route.snapshot.paramMap.get('username')!).subscribe(member => {
       this.member = member;
@@ -57,9 +76,13 @@ export class MemberDetailComponent implements OnInit {
       // we will get an error in the console, because nothing is waiting for nothing
       // but in this way we ensure the app that aeverything is ok
       
+
+      
       this.galleryImages = this.getImages(); // initialize our galery 
     })
   }
+
+  */
 
 
   loadMessages(){
@@ -72,6 +95,16 @@ export class MemberDetailComponent implements OnInit {
     if(this.activeTab.heading === 'Messages' && this.messages.length === 0){
       this.loadMessages();
     }
+  }
+
+  // We create this method and it will do next:
+  // When we will press the green MessageButoon from the card
+  // we want to activate the message tab
+  // and because we are not doinf nothing dynamicly with our tabs
+  // we hardcoded in the html part, 
+  selectTab(tabId: number) {
+    this.memberTabs.tabs[tabId].active = true;
+
   }
 
 }
