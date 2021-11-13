@@ -49,7 +49,11 @@
             </td>
             <td>{{message.messageSend | timeago }}</td>
             <td>
-                <button class="btn btn-outline-danger">Delete</button>
+                <!--Because in the table row we have acctivated the routerLink
+                    We add the second click event , $eventPropagation
+                    And this ensure that we are not using route link when we press the delete
+                    button and delete the message-->
+                <button (click)="$event.stopPropagation()" (click)="deleteMessage(message.id)" class="btn btn-outline-danger">Delete</button>
             </td>
         </tr>
     </table>
