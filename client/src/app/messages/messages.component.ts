@@ -31,6 +31,16 @@ export class MessagesComponent implements OnInit {
     })
   }
 
+  // subscribe(()=> ) are empty pharantesys because from the delete we do not
+  // get anything , and then we find the index of the message that we want to delete
+  // and then 1, show that we want to delete only 1 message with this id
+  
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id).subscribe(() => {
+      this.messages.splice(this.messages.findIndex(m => m.id == id),1);
+    })
+  }
+
   pageChanged(event:any){
     // We need here to double check, because we get get the bug of infite time loading the page
     
