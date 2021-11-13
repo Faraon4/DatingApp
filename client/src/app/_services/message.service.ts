@@ -23,4 +23,14 @@ export class MessageService {
   getMessageThread(username: string) {
     return this.http.get<Message[]>(this.baseUrl + 'messages/thread/'+username);
 }
+
+//username, is the person to whom we want to send a message
+sendMessage(username:string, content : string){
+  // {} in the breacket we show what we want to send
+  // and then we specify the name of parameters (key)
+  // recipientUsername : username
+  // content stay like this , because the name of the property is the same what we pass in
+
+  return this.http.post<Message>(this.baseUrl+ 'messages', {recipientUsername: username, content});
+}
 }
