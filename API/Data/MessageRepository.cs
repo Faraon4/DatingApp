@@ -34,7 +34,13 @@ namespace API.Data
 
         public async Task<Message> GetMessage(int id)
         {
-            return await _context.Messages.FindAsync(id);
+            // if we want to have access to related entities , like sender or Recipient
+            // we neeed to project or to eagerly load the related entities
+
+            return await _context.Messages
+                            .Include(u => u.Sender)
+                            .Include(u => u.Recipient)
+                            .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
