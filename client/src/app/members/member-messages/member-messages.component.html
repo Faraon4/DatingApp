@@ -33,6 +33,7 @@
     </div>
 
     <div class="card-footer">
+        <!--name ngModel should have the same name as the name in the ts file , in this case is messageContent-->
         <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
             <div class="input-group">
                 <input 
