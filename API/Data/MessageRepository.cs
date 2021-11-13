@@ -46,9 +46,9 @@ namespace API.Data
             //Check the container
             query = messageParams.Container switch 
                     {
-                        "Inbox" => query.Where(u => u.Recipient.UserName== messageParams.Username),
-                        "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username),
-                         _ => query.Where(u => u.Recipient.UserName== messageParams.Username && u.DateRead ==null)
+                        "Inbox" => query.Where(u => u.Recipient.UserName== messageParams.Username && u.RecipientDeleted == false), // u.recipientDeleted == false , we return the mesages that recipient did not delete
+                        "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username && u.SenderDeleted == false), // the same as previous
+                         _ => query.Where(u => u.Recipient.UserName== messageParams.Username && u.RecipientDeleted == false && u.DateRead ==null)
                     };
 
             //Return Dto from this, that's why we need to return the automapper
@@ -76,10 +76,10 @@ namespace API.Data
             var messages = await _context.Messages
                                   .Include(u => u.Sender).ThenInclude(p => p.Photos)
                                   .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-                                  .Where(m => m.Recipient.UserName == currentUsername 
+                                  .Where(m => m.Recipient.UserName == currentUsername && m.RecipientDeleted == false
                                   && m.Sender.UserName == recipientUsername
                                   || m.Recipient.UserName == recipientUsername
-                                  && m.Sender.UserName == currentUsername)
+                                  && m.Sender.UserName == currentUsername && m.SenderDeleted == false)
                                   .OrderBy(m => m.MessageSend)
                                   .ToListAsync();
 
