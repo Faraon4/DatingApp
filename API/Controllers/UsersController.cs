@@ -31,7 +31,7 @@ namespace API.Controllers
         }
 
         // End point to get all users from out database
-        [Authorize(Roles = "Admin")]
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
@@ -52,7 +52,7 @@ namespace API.Controllers
 
         // End point to get specific user from out database
         // api/users/id
-        [Authorize(Roles = "Member")]
+        
         [HttpGet("{username}", Name = "GetUser")]
         public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
