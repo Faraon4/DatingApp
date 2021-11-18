@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { User } from '../_models/user';
 import { environment } from 'src/environments/environment';
+import { ArrayType } from '@angular/compiler';
 
 
 // This service will be used to make requests to out api
@@ -44,6 +45,20 @@ currentUser$ = this.currentUserSource.asObservable(); // Observable objects , by
   }
 
 setCurrentUser(user : User) {
+  user.roles = [];
+  const roles = this.getDecodedToken(user.token).role;
+
+  // now we need to check the const roles, because
+  // if the user is login , it is just a simple string the role in the token
+  // but if the user has more than one role, it is becoming an array
+  // and now we need to make some logic what to do when we have this situation
+
+  Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+  // Having now the information about the roles of the user
+  // we can go and greate a new guard for the admin 
+
+
+
   localStorage.setItem('user', JSON.stringify(user));
   this.currentUserSource.next(user);
 }
@@ -51,5 +66,10 @@ setCurrentUser(user : User) {
 logout() {
   localStorage.removeItem('user');
   this.currentUserSource.next(null!); // In Typescript , to make sure we can use null and the end of null and ! => null!
+}
+
+
+getDecodedToken(token:any){
+  return JSON.parse(atob(token.split(".")[1])); // This is the method to get a part of the token
 }
 }
